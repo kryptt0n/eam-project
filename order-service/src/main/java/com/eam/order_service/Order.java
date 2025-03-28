@@ -15,10 +15,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer count, String stock, String account) {
+    public Order(Integer count, String stock, String account, Action action) {
         this.count = count;
         this.stock = stock;
         this.account = account;
+        this.action = action;
     }
 
     public String getId() {
@@ -51,5 +52,13 @@ public class Order {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 }
