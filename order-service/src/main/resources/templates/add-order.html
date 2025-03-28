@@ -5,21 +5,23 @@
     <title>Add Order</title>
 </head>
 <body>
-<form th:action="">
-    <label>Count (*100)</label>
-    <input type="number" required name="count"/>
+<h1>Add Order</h1>
+<form th:action="@{/orders/add}" th:object="${order}" method="post">
+    <label for="count">Count (*100)</label>
+    <input type="number" id="count" th:field="*{count}" required name="count"/>
 
-    <label>Stock</label>
-    <input type="text" required name="stock"/>
+    <label for="stock">Stock</label>
+    <input type="text" id="stock" th:field="*{stock}" required name="stock"/>
 
-    <label>Account</label>
-    <input type="text" required name="account"/>
+    <label for="account">Account</label>
+    <input type="text" id="account" th:field="*{account}" required name="account"/>
 
-    <label>Action</label>
-    <select name="action" required>
-        <option value="BUY">Buy</option>
-        <option value="SELL">Sell</option>
+    <label for="action">Action</label>
+    <select id="action" th:field="*{action}" required name="action">
+        <option th:each="act : ${actions}" th:value="${act}" th:text="${act}"></option>
     </select>
+
+    <button type="submit">Submit</button>
 </form>
 </body>
 </html>
