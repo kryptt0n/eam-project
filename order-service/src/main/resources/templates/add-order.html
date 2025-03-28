@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>Add Order</h1>
+<a th:href="@{/orders/list}">Back to Order List</a>
 <form th:action="@{/orders/add}" th:object="${order}" method="post">
     <label for="count">Count (*100)</label>
     <input type="number" id="count" th:field="*{count}" required name="count"/>
