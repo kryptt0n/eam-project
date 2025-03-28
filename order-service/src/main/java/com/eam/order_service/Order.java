@@ -10,6 +10,7 @@ public class Order {
     private Integer count;
     private String stock;
     private String account;
+    private Action action;
 
     public Order() {
     }
