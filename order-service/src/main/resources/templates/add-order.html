@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Order</title>
+</head>
+<body>
+<form th:action="">
+    <label>Count (*100)</label>
+    <input type="number" required name="count"/>
+
+    <label>Stock</label>
+    <input type="text" required name="stock"/>
+
+    <label>Account</label>
+    <input type="text" required name="account"/>
+
+    <label>Action</label>
+    <select name="action" required>
+        <option value="BUY">Buy</option>
+        <option value="SELL">Sell</option>
+    </select>
+</form>
+</body>
+</html>
