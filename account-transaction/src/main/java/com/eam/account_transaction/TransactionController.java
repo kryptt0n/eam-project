@@ -1,7 +1,10 @@
 package com.eam.account_transaction;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,31 +12,15 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/transactions")
 public class TransactionController {
-    private final TransactionRepository transactionRepository;
+    private final TransactionService transactionService;
 
-    public TransactionController(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
+    public TransactionController(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 
     @PostMapping("/add")
-    public void addTransaction(@ModelAttribute Transaction transaction) {
-        transactionRepository.save(transaction);
-    }
-
-    @GetMapping("/list")
-    public List<Transaction> listTransactions() {
-        return transactionRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public Transaction getTransaction(@PathVariable String id) {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-
-        if (transaction.isPresent()) {
-            return transaction.get();
-        } else {
-            return null;
-        }
+    public ResponseEntity<Transaction> addTransaction(@RequestBody TransactionRequestDTO transactionRequestDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.createTransaction(transactionRequestDTO));
     }
 
 }
