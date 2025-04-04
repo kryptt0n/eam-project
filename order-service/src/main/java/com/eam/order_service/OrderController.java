@@ -30,7 +30,7 @@ public class OrderController {
      */
     @GetMapping("/add")
     public String showAddOrderForm(Model model) {
-        model.addAttribute("order", new Order());
+        model.addAttribute("order", new OrderDto());
         model.addAttribute("actions", Arrays.asList(Action.values()));
         return "add-order";
     }
@@ -42,12 +42,14 @@ public class OrderController {
      * @return Redirect to order list
      */
     @PostMapping("/add")
-    public String addOrder(@ModelAttribute Order order) {
-        orderRepository.save(order);
+    public String addOrder(@ModelAttribute OrderDto order) {
+        Order newOrder = new Order(order.getCount(), order.getStock(), order.getAccount(), order.getAction());
+        orderRepository.save(newOrder);
+        System.out.println(order.getExchangeType());
         ObjectMapper mapper = new ObjectMapper();
         File fl = new File("target/orders.json");
         try {
-            mapper.writeValue(fl, order);
+            mapper.writeValue(fl, newOrder);
         } catch (IOException e) {
             e.printStackTrace();
         }
