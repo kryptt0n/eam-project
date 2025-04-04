@@ -8,9 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MarketOrder {
     @Id
     private String orderId;
-    @Id
     private String transactionId;
-    @Id
     private String feeId;
     private double bid;
     private double ask;
