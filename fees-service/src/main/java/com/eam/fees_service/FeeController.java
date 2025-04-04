@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/fees")
+@RequestMapping("/fees")
 public class FeeController {
     
     private final FeeService feeService;
