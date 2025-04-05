@@ -1,4 +1,6 @@
-package com.eam.order_service;
+package com.eam.order_service.dto;
+
+import com.eam.order_service.Action;
 
 public class OrderDto {
     private String id;
