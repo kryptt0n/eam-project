@@ -1,6 +1,5 @@
 package com.eam.fees_service;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
@@ -113,18 +112,5 @@ public class Fee {
         this.fee_salestax = feeAmount * 0.13;
         
         return feeAmount + this.fee_salestax;
-    }
-
-    @Override
-    public String toString() {
-        return "Fee{" +
-                "feeId='" + feeId + '\'' +
-                ", feeType=" + feeType +
-                ", feeAmt=" + feeAmt +
-                ", feeDate=" + feeDate +
-                ", feeTime=" + feeTime +
-                ", fee_salestax=" + fee_salestax +
-                ", attribute='" + attribute + '\'' +
-                '}';
     }
 }
