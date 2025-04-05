@@ -1,9 +1,11 @@
 package com.eam.order_service;
 
+import com.eam.order_service.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +18,12 @@ import java.util.Optional;
 public class OrderController {
 
     private final OrderRepository orderRepository;
+    private final RestTemplate restTemplate;
 
     // Constructor injection
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository, RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
+        this.restTemplate = restTemplate;
     }
 
     /**
@@ -44,8 +48,32 @@ public class OrderController {
     @PostMapping("/add")
     public String addOrder(@ModelAttribute OrderDto order) {
         Order newOrder = new Order(order.getCount(), order.getStock(), order.getAccount(), order.getAction());
-        orderRepository.save(newOrder);
-        System.out.println(order.getExchangeType());
+        Order savedOrder = orderRepository.save(newOrder);
+        TransactionRequestDto transactionRequestDto = new TransactionRequestDto(
+                savedOrder.getId(),
+                savedOrder.getAction().name(),
+                savedOrder.getStock(),
+                Math.random() * 100,
+                savedOrder.getCount()
+        );
+
+        TransactionDto transactionResponse = restTemplate.postForEntity("http://ACCOUNT-TRANSACTION/transactions/add", transactionRequestDto, TransactionDto.class).getBody();
+
+        FeeRequestDTO feeRequestDTO = new FeeRequestDTO(true,
+                transactionResponse.getOrderAmount(),
+                0.13,
+                transactionResponse.getTickerSymbol());
+
+        FeeDto feeResponse = restTemplate.postForEntity("http://FEE-SERVICE/fees/add", feeRequestDTO, FeeDto.class).getBody();
+
+        MarketRequestDto marketRequestDto = new MarketRequestDto(savedOrder.getId(),
+                transactionResponse.getId(),
+                feeResponse.getFeeId(),
+                feeResponse.getFeeAmt(),
+                order.getExchangeType());
+
+        restTemplate.postForEntity("http://MARKET-SERVICE/market-orders", marketRequestDto, MarketDto.class);
+
         ObjectMapper mapper = new ObjectMapper();
         File fl = new File("target/orders.json");
         try {
