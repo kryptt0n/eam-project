@@ -142,7 +142,7 @@ public class FeeController {
     @PostMapping("/order/{orderId}")
     public ResponseEntity<Fee> processFeesForOrder(@PathVariable String orderId) {
         // Get order details from Order Service using RestTemplate
-        String orderServiceUrl = "http://order-service/api/orders/" + orderId;
+        String orderServiceUrl = "http://order-service/orders/" + orderId;
         ResponseEntity<Order> response = restTemplate.getForEntity(orderServiceUrl, Order.class);
         
         if (response.getStatusCode() == HttpStatus.OK) {
