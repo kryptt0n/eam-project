@@ -148,11 +148,10 @@ public class FeeController {
         if (response.getStatusCode() == HttpStatus.OK) {
             Order order = response.getBody();
             if (order != null) {
-                // Determine if it's a buy or sell order
                 boolean isBuyOrder = order.getAction() == Action.BUY;
                 
-                // Calculate fee based on order amount (assuming count * some price)
-                double orderAmount = order.getCount() * 100; // Example calculation
+                // Calculate fee based on order amount 
+                double orderAmount = order.getCount() * 100; 
                 
                 Fee fee = feeService.calculateFeeForOrder(orderAmount, isBuyOrder);
                 return new ResponseEntity<>(fee, HttpStatus.CREATED);
