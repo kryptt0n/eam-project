@@ -1,4 +1,4 @@
-package com.eam.order_service;
+package com.eam.order_service.dto;
 
 public class TransactionRequestDto {
     private String orderId;
