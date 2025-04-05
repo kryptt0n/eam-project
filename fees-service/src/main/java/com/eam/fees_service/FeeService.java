@@ -69,9 +69,9 @@ public class FeeService {
         // Save to database
         Fee savedFee = feeRepository.save(fee);
         
-        // Use ObjectMapper to save to JSON file
+        // Use ObjectMapper to save to JSON file - using the same file as createFee
         ObjectMapper mapper = new ObjectMapper();
-        File file = new File("target/calculated_fee.json");
+        File file = new File("target/fee.json");
         try {
             mapper.writeValue(file, fee);
         } catch (IOException e) {
