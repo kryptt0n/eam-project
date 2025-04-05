@@ -10,6 +10,12 @@ import java.util.Random;
 
 @Service
 public class MarketOrderService {
+
+    private final MarketOrderRepository marketOrderRepository;
+
+    public MarketOrderService(MarketOrderRepository marketOrderRepository) {
+        this.marketOrderRepository = marketOrderRepository;
+    }
     
     public MarketOrder createMarketOrder(MarketRequestDto marketDto) {
         
@@ -25,6 +31,7 @@ public class MarketOrderService {
         marketOrder.setPrevious(Math.random() * 100);
         marketOrder.setConfirmationStatus("CONFIRMED");
 
+        marketOrderRepository.save(marketOrder);
 
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File("target/market_order.json");

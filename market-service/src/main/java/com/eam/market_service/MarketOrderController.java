@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/market-order")
+@RequestMapping("/market-orders")
 public class MarketOrderController {
 
     private final MarketOrderService marketOrderService;

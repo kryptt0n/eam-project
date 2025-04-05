@@ -10,6 +10,13 @@ import java.time.LocalDateTime;
 
 @Service
 public class TransactionService {
+
+    private final TransactionRepository transactionRepository;
+
+    public TransactionService(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
+
     public Transaction createTransaction(TransactionRequestDTO transactionRequestDTO) {
         Transaction transaction = new Transaction();
         transaction.setOrderId(transactionRequestDTO.getOrderId());
@@ -18,6 +25,8 @@ public class TransactionService {
         transaction.setTickerSymbol(transactionRequestDTO.getTickerSymbol());
         transaction.setOrderDateTime(LocalDateTime.now());
         transaction.setOrderAmount(transactionRequestDTO.getOrderAmount());
+
+        transactionRepository.save(transaction);
 
         ObjectMapper mapper = new ObjectMapper();
         File file = new File("target/transaction.json");
